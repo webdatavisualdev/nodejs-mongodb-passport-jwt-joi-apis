@@ -1,0 +1,297 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Fuel 3D RESTful APIs",
+        "description": "Fuel 3D RESTful APIs",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3001",
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "API for authentication"
+        },
+        {
+            "name": "User",
+            "description": "API for user information"
+        },
+        {
+            "name": "Face",
+            "description": "API for face recognition"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "description": "Create new user",
+                "parameters": [
+                    {
+                        "name": "User",
+                        "in": "body",
+                        "description": "User model for account",
+                        "schema": {
+                            "$ref": "#/definitions/CreateUser"
+                        },
+                        "value": "{email: 'test@gmail.com', password: '12345678', username: 'testuser', role: 'user', avatar: ''}"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/CreatedUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "description": "Login to the system",
+                "parameters": [
+                    {
+                        "name": "Login information",
+                        "in": "body",
+                        "description": "Login information for the account",
+                        "schema": {
+                            "$ref": "#/definitions/LoginUser"
+                        },
+                        "value": "{email: 'test@gmail.com', password: '12345678'}"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login success",
+                        "schema": {
+                            "$ref": "#/definitions/CreatedUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "Example"
+                ],
+                "description": "Create new user in system",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/CreateUser"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Example"
+                ],
+                "summary": "Get all users in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of user that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Example"
+                ],
+                "summary": "Get user with given ID",
+                "responses": {
+                    "200": {
+                        "description": "User is found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user with given ID",
+                "tags": [
+                    "Example"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update user with give ID",
+                "tags": [
+                    "Example"
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User is updated",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "email",
+                "_id"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "email": {
+                    "type": "string",
+                    "unique": true
+                },
+                "role": {
+                    "type": "string",
+                    "default": "user",
+                    "enum": ["user", "admin"]
+                },
+                "username": {
+                    "type": "string",
+                    "unique": true
+                },
+                "avatar": {
+                    "type": "string"
+                }
+            }
+        },
+        "CreateUser": {
+            "required": [
+                "email",
+                "password",
+                "username",
+                "role"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "unique": true
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 128
+                },
+                "role": {
+                    "type": "string",
+                    "default": "user",
+                    "enum": ["user", "admin"]
+                },
+                "username": {
+                    "type": "string",
+                    "unique": true
+                },
+                "avatar": {
+                    "type": "string"
+                }
+            }
+        },
+        "CreatedUser": {
+            "properties": {
+                "token": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/User"
+                }
+            }
+        },
+        "LoginUser": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "unique": true
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6,
+                    "maxLength": 128
+                }
+            }
+        },
+        "Users": {
+            "type": "array",
+            "$ref": "#/definitions/User"
+        }
+    }
+}

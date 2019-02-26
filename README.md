@@ -18,4 +18,4 @@ http://localhost:3001/api/v1
 ## SWAGGER URL
 http://localhost:3001/api-docs
 
-![Swagger Image](https://github.com/webdatavisualdev/nodejs-mongodb-passport-jwt-joi-apis/swagger-image.png)
+![Swagger Image](https://github.com/webdatavisualdev/nodejs-mongodb-passport-jwt-joi-apis/blob/master/swagger-image.png)
